@@ -1,0 +1,61 @@
+.App {
+    text-align: center;
+    background-color: lightblue;
+    width: 600px;
+    border-radius: 8px;
+}
+
+.App-logo {
+    animation: App-logo-spin infinite 20s linear;
+    height: 80px;
+}
+
+.App-header {
+    width: 600px;
+    border-radius: 8px;
+    background-color: #222;
+    color: white;
+}
+
+.App-intro {
+    font-size: large;
+}
+
+@keyframes App-logo-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.one {
+    background-color: #b10dc9;
+}
+
+.two {
+    background-color: gold;
+}
+
+.three {
+    background-color: deepskyblue;
+}
+
+.four {
+    background-color: silver;
+}
+
+.timerButton {
+    border: none;
+    width: 100px;
+    margin: 10px;
+    padding: 10px;
+    font-size: 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.controlMenu{
+    width: 600px;
+    background-color: #aaaaaa;
+}
