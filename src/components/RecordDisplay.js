@@ -9,12 +9,23 @@ export default class RecordDisplay extends React.Component {
      recordItem: 'No Record!'
      }*/
 
+    getEmptyItem = ()=> {
+        return <li> No Record!</li>
+    };
+
+    getRecordItem = ()=> {
+        /*return this.props.recordHistory.map((content, i)=> {
+         return <li className="recordItem">{i + 1}. {content} </li>
+         });*/
+        return this.props.recordHistory.map(function (content, i) {
+            return <li className="recordItem" key={i}>{i + 1}. {content} </li>
+        })
+    };
+
     render() {
         return (
             <ul>
-                <span>
-                    {this.props.recordItem}
-                </span>
+                {this.props.recordHistory.length < 1 ? this.getEmptyItem : this.getRecordItem()}
             </ul>
         )
     }

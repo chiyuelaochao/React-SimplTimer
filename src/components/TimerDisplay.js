@@ -12,7 +12,8 @@ class TimerDisplay extends React.Component {
         //不能调用state
         this.state = {
             timerNumber: 0,
-            isStart: false
+            isStart: false,
+            recordHistory: []
         };
     }
 
@@ -30,13 +31,16 @@ class TimerDisplay extends React.Component {
             this.setState({timerNumber: 0});
             this.setState({isStart: false});
         } else if (key === "record") {
-            this.recordNumber = formatTime(this.state.timerNumber);
-            // console.log(this.recordNumber);
+            if (this.state.isStart) {
+                this.state.recordHistory.push(formatTime(this.state.timerNumber))
+            }
         } else if (key === "clear") {
-
+            if (this.state.recordHistory.length > 0) {
+                this.setState({recordHistory: []});
+            }
         }
 
-    }
+    };
 
     render() {
         let time = formatTime(this.state.timerNumber);
@@ -44,15 +48,46 @@ class TimerDisplay extends React.Component {
             <div>
                 <h1>{time}</h1>
                 <div className="controlMenu">
-                    <TimerButton name="one" text={this.state.isStart?"Stop":"Start"}
+                    <TimerButton name={this.state.isStart?"startButtonClick":"startButton"}
+                                 text={this.state.isStart?"Stop":"Start"}
                                  onClick={this.onTimerButtonClick.bind(this,'start')}/>
-                    <TimerButton name="two" text="Rest" onClick={this.onTimerButtonClick.bind(this,'rest')}/>
-                    <TimerButton name="three" text="Record" onClick={this.onTimerButtonClick.bind(this,'record')}/>
-                    <TimerButton name="four" text="Clear" onClick={this.onTimerButtonClick.bind(this,'clear')}/>
+                    <TimerButton name="restButton" text="Rest" onClick={this.onTimerButtonClick.bind(this,'rest')}/>
+                    <TimerButton name="recordButton" text="Record"
+                                 onClick={this.onTimerButtonClick.bind(this,'record')}/>
+                    <TimerButton name="clearButton" text="Clear" onClick={this.onTimerButtonClick.bind(this,'clear')}/>
                 </div>
-                <RecordDisplay recordItem={this.recordNumber}/>
+                <RecordDisplay recordHistory={this.state.recordHistory}/>
             </div>
         )
+    }
+
+    componentDidMount() {
+        console.log("componentDidMount");
+        window.addEventListener('keydown', event=>event.preventDefault());
+        window.addEventListener('keyup', event=> {
+            event.preventDefault();
+            switch (event.keyCode) {
+                case 32:
+                    this.onTimerButtonClick("start");
+                    break;
+                case 82:
+                    this.onTimerButtonClick("rest");
+                    break;
+                case 13:
+                    this.onTimerButtonClick("record");
+                    break;
+                case 67:
+                    this.onTimerButtonClick("clear");
+                    break;
+            }
+        });
+    }
+
+    componentWillUnmount() {
+        console.log("componentWillUnmount");
+        window.removeEventListener('keydown');
+        window.removeEventListener('keyup');
+
     }
 }
 export default TimerDisplay;
